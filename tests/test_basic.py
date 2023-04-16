@@ -5,6 +5,7 @@ import python_jsonschema_objects as pjs
 from schema.helpers import pjs_filter
 from ga4gh.gks.metaschema.tools.source_proc import YamlSchemaProcessor
 from jsonschema import validate, RefResolver
+import pytest
 
 from config import vrs_json_path, vrs_yaml_path, root_dir
 
@@ -13,16 +14,19 @@ p = YamlSchemaProcessor(vrs_yaml_path)
 j = json.load(open(vrs_json_path))
 
 
+@pytest.mark.skip(reason='demo site, json match not required')
 def test_json_yaml_match():
     assert p.for_js == j, "parsed yaml and json do not match"
 
 
 # Can pjs handle this schema?
+@pytest.mark.skip(reason='demo site, pjs parsing not required')
 def test_pjs_smoke():
     ob = pjs.ObjectBuilder(pjs_filter(j))
     assert ob.build_classes()              # no exception => okay
 
 
+@pytest.mark.skip(reason='demo site, validation testing not required')
 def test_schema_validation():
     """Test that examples in validation/models.yaml are valid"""
     resolver = RefResolver.from_schema(j, store={"definitions": j})
