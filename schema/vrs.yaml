@@ -10,8 +10,6 @@ definitions:
     - $ref: '#/definitions/CopyNumberCount'
     - $ref: '#/definitions/Genotype'
     - $ref: '#/definitions/Haplotype'
-    - $ref: '#/definitions/Text'
-    - $ref: '#/definitions/VariationSet'
     discriminator:
       propertyName: type
   MolecularVariation:
@@ -19,15 +17,6 @@ definitions:
     oneOf:
     - $ref: '#/definitions/Allele'
     - $ref: '#/definitions/Haplotype'
-    discriminator:
-      propertyName: type
-  UtilityVariation:
-    description: A collection of Variation subclasses that cannot be constrained to
-      a specific class of biological variation, but are necessary for some applications
-      of VRS.
-    oneOf:
-    - $ref: '#/definitions/Text'
-    - $ref: '#/definitions/VariationSet'
     discriminator:
       propertyName: type
   SystemicVariation:
@@ -58,15 +47,12 @@ definitions:
         - $ref: '#/definitions/SequenceLocation'
         description: Where Allele is located
       state:
+        description: An expression of the sequence state
         oneOf:
         - $ref: '#/definitions/ComposedSequenceExpression'
         - $ref: '#/definitions/DerivedSequenceExpression'
         - $ref: '#/definitions/LiteralSequenceExpression'
         - $ref: '#/definitions/RepeatedSequenceExpression'
-        - $ref: '#/definitions/SequenceState'
-        description: An expression of the sequence state
-        deprecated:
-        - $ref: '#/definitions/SequenceState'
     required:
     - location
     - state
@@ -96,58 +82,6 @@ definitions:
           - $ref: '#/definitions/CURIE'
         description: List of Alleles, or references to Alleles, that comprise this
           Haplotype.
-    required:
-    - members
-    - type
-    additionalProperties: false
-  Text:
-    description: A free-text definition of variation.
-    type: object
-    properties:
-      _id:
-        $ref: '#/definitions/CURIE'
-        description: Variation Id. MUST be unique within document.
-      type:
-        type: string
-        const: Text
-        default: Text
-        description: MUST be "Text"
-      definition:
-        type: string
-        description: A textual representation of variation not representable by other
-          subclasses of Variation.
-    required:
-    - definition
-    - type
-    additionalProperties: false
-  VariationSet:
-    description: An unconstrained set of Variation members.
-    type: object
-    properties:
-      _id:
-        $ref: '#/definitions/CURIE'
-        description: Variation Id. MUST be unique within document.
-      type:
-        type: string
-        const: VariationSet
-        default: VariationSet
-        description: MUST be "VariationSet"
-      members:
-        type: array
-        uniqueItems: true
-        ordered: false
-        items:
-          oneOf:
-          - $ref: '#/definitions/Allele'
-          - $ref: '#/definitions/CURIE'
-          - $ref: '#/definitions/CopyNumberChange'
-          - $ref: '#/definitions/CopyNumberCount'
-          - $ref: '#/definitions/Genotype'
-          - $ref: '#/definitions/Haplotype'
-          - $ref: '#/definitions/Text'
-          - $ref: '#/definitions/VariationSet'
-        description: List of Variation objects or identifiers. Attribute is required,
-          but MAY be empty.
     required:
     - members
     - type
@@ -289,13 +223,19 @@ definitions:
         type: string
         description: The symbolic chromosome name. For humans, For humans, chromosome
           names MUST be one of 1..22, X, Y (case-sensitive)
-      interval:
-        $ref: '#/definitions/CytobandInterval'
-        description: The chromosome region defined by a CytobandInterval
+      start:
+        $ref: '#/definitions/HumanCytoband'
+        description: The start cytoband region. MUST specify a region nearer the terminal
+          end (telomere) of the chromosome p-arm than `end`.
+      end:
+        $ref: '#/definitions/HumanCytoband'
+        description: The end cytoband region. MUST specify a region nearer the terminal
+          end (telomere) of the chromosome q-arm than `start`.
     required:
     - chr
-    - interval
+    - end
     - species_id
+    - start
     - type
     additionalProperties: false
   SequenceLocation:
@@ -313,27 +253,6 @@ definitions:
       sequence_id:
         $ref: '#/definitions/CURIE'
         description: A VRS Computed Identifier for the reference Sequence.
-      interval:
-        oneOf:
-        - $ref: '#/definitions/SequenceInterval'
-        - $ref: '#/definitions/SimpleInterval'
-        description: Reference sequence region defined by a SequenceInterval.
-    required:
-    - interval
-    - sequence_id
-    - type
-    additionalProperties: false
-  SequenceInterval:
-    description: A SequenceInterval represents a span on a Sequence. Positions are
-      always represented by contiguous spans using interbase coordinates or coordinate
-      ranges.
-    type: object
-    properties:
-      type:
-        type: string
-        const: SequenceInterval
-        default: SequenceInterval
-        description: MUST be "SequenceInterval"
       start:
         oneOf:
         - $ref: '#/definitions/DefiniteRange'
@@ -352,34 +271,7 @@ definitions:
           than the value of `start`.
     required:
     - end
-    - start
-    - type
-    additionalProperties: false
-  CytobandInterval:
-    description: A contiguous span on a chromosome defined by cytoband features. The
-      span includes the constituent regions described by the start and end cytobands,
-      as well as any intervening regions.
-    type: object
-    properties:
-      type:
-        type: string
-        const: CytobandInterval
-        default: CytobandInterval
-        description: MUST be "CytobandInterval"
-      start:
-        $ref: '#/definitions/HumanCytoband'
-        description: The start cytoband region. MUST specify a region nearer the terminal
-          end (telomere) of the chromosome p-arm than `end`.
-      end:
-        $ref: '#/definitions/HumanCytoband'
-        description: The end cytoband region. MUST specify a region nearer the terminal
-          end (telomere) of the chromosome q-arm than `start`.
-    example:
-      type: CytobandInterval
-      start: q22.2
-      end: q22.3
-    required:
-    - end
+    - sequence_id
     - start
     - type
     additionalProperties: false
@@ -629,52 +521,3 @@ definitions:
       \ codes are permitted in Sequences."
     type: string
     pattern: ^[A-Z*\-]*$
-  SequenceState:
-    deprecated: true
-    description: DEPRECATED. A Sequence as a State. This is the State class to use
-      for representing "ref-alt" style variation, including SNVs, MNVs, del, ins,
-      and delins. This class is deprecated. Use LiteralSequenceExpression instead.
-    type: object
-    properties:
-      type:
-        type: string
-        const: SequenceState
-        default: SequenceState
-        description: MUST be "SequenceState"
-      sequence:
-        $ref: '#/definitions/Sequence'
-        description: A string of Residues
-    example:
-      type: SequenceState
-      sequence: C
-    required:
-    - sequence
-    - type
-    additionalProperties: false
-  SimpleInterval:
-    deprecated: true
-    description: 'DEPRECATED: A SimpleInterval represents a span of sequence. Positions
-      are always represented by contiguous spans using interbase coordinates. This
-      class is deprecated. Use SequenceInterval instead.'
-    type: object
-    properties:
-      type:
-        type: string
-        const: SimpleInterval
-        default: SimpleInterval
-        description: MUST be "SimpleInterval"
-      start:
-        type: integer
-        description: The start coordinate
-      end:
-        type: integer
-        description: The end coordinate
-    example:
-      type: SimpleInterval
-      start: 11
-      end: 22
-    required:
-    - end
-    - start
-    - type
-    additionalProperties: false

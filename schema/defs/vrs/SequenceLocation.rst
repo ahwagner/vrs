@@ -28,7 +28,11 @@ Some SequenceLocation attributes are inherited from :ref:`Location`.
       - :ref:`CURIE`
       - 1..1
       - A VRS :ref:`Computed Identifier <computed-identifiers>` for the reference :ref:`Sequence`.
-   *  - interval
-      - :ref:`SequenceInterval` | :ref:`SimpleInterval`
+   *  - start
+      - :ref:`Number` | :ref:`IndefiniteRange` | :ref:`DefiniteRange`
       - 1..1
-      - Reference sequence region defined by a :ref:`SequenceInterval`.
+      - The start coordinate or range of the interval. The minimum value of this coordinate or range is 0. MUST represent a coordinate or range less than the value of `end`.
+   *  - end
+      - :ref:`Number` | :ref:`IndefiniteRange` | :ref:`DefiniteRange`
+      - 1..1
+      - The end coordinate or range of the interval. The minimum value of this coordinate or range is 0. MUST represent a coordinate or range greater than the value of `start`.

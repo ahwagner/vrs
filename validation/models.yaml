@@ -36,8 +36,8 @@ IndefiniteRange:
       value: 22
     out:
       ga4gh_serialize: '{"comparator":">=","type":"IndefiniteRange","value":22}'
-SequenceInterval:
-  -
+SequenceLocation:
+  - name: "SequenceLocation w/simple interval"
     in:
       end:
         type: Number
@@ -45,34 +45,6 @@ SequenceInterval:
       start:
         type: Number
         value: 44908821
-      type: SequenceInterval
-    out:
-      ga4gh_serialize: '{"end":{"type":"Number","value":44908822},"start":{"type":"Number","value":44908821},"type":"SequenceInterval"}'
-SequenceInterval:
-  -
-    in:
-      end:
-        comparator: '>='
-        type: IndefiniteRange
-        value: 44908822
-      start:
-        max: 44908821
-        min: 44908721
-        type: DefiniteRange
-      type: SequenceInterval
-    out:
-      ga4gh_serialize: '{"end":{"comparator":">=","type":"IndefiniteRange","value":44908822},"start":{"max":44908821,"min":44908721,"type":"DefiniteRange"},"type":"SequenceInterval"}'
-SequenceLocation:
-  - name: "SequenceLocation w/simple interval"
-    in:
-      interval:
-        end:
-          type: Number
-          value: 44908822
-        start:
-          type: Number
-          value: 44908821
-        type: SequenceInterval
       sequence_id: ga4gh:SQ.IIB53T8CNeJJdUqzn9V_JnRtQadwWCbl
       type: SequenceLocation
     out:
@@ -82,56 +54,42 @@ SequenceLocation:
 SequenceLocation:
   - name: "SequenceLocation w/Definite and Indefinite Ranges"
     in:
-      interval:
-        end:
-          comparator: '>='
-          type: IndefiniteRange
-          value: 44908822
-        start:
-          max: 44908821
-          min: 44908721
-          type: DefiniteRange
-        type: SequenceInterval
+      end:
+        comparator: '>='
+        type: IndefiniteRange
+        value: 44908822
+      start:
+        max: 44908821
+        min: 44908721
+        type: DefiniteRange
       sequence_id: ga4gh:SQ.IIB53T8CNeJJdUqzn9V_JnRtQadwWCbl
       type: SequenceLocation
     out:
       ga4gh_digest: 2ZIY16gPTLbVISuREaRmb0jXGj-_IdRv
       ga4gh_identify: ga4gh:VSL.2ZIY16gPTLbVISuREaRmb0jXGj-_IdRv
-      ga4gh_serialize: '{"interval":{"end":{"comparator":">=","type":"IndefiniteRange","value":44908822},"start":{"max":44908821,"min":44908721,"type":"DefiniteRange"},"type":"SequenceInterval"},"sequence_id":"IIB53T8CNeJJdUqzn9V_JnRtQadwWCbl","type":"SequenceLocation"}'
-CytobandInterval:
-  -
-    in:
-      end: q13.32
-      start: q13.32
-      type: CytobandInterval
-    out:
-      ga4gh_serialize: '{"end":"q13.32","start":"q13.32","type":"CytobandInterval"}'
+      ga4gh_serialize: '{"end":{"comparator":">=","type":"IndefiniteRange","value":44908822},"start":{"max":44908821,"min":44908721,"type":"DefiniteRange"},"sequence_id":"IIB53T8CNeJJdUqzn9V_JnRtQadwWCbl","type":"SequenceLocation"}'
 ChromosomeLocation:
   - name: "19q13.32 Example"
     in:
       chr: '19'
-      interval:
-        end: q13.32
-        start: q13.32
-        type: CytobandInterval
+      end: q13.32
+      start: q13.32
       species_id: taxonomy:9606
       type: ChromosomeLocation
     out:
       ga4gh_digest: HLH0tBIjV4Vxr_814b41hBsICouJkSN1
       ga4gh_identify: ga4gh:VCL.HLH0tBIjV4Vxr_814b41hBsICouJkSN1
-      ga4gh_serialize: '{"chr":"19","interval":{"end":"q13.32","start":"q13.32","type":"CytobandInterval"},"species_id":"taxonomy:9606","type":"ChromosomeLocation"}'
+      ga4gh_serialize: '{"chr":"19","end":"q13.32","start":"q13.32","type":"CytobandInterval"},"species_id":"taxonomy:9606","type":"ChromosomeLocation"}'
 DerivedSequenceExpression:
   -
     in:
       location:
-        interval:
-          end:
-            type: Number
-            value: 44908822
-          start:
-            type: Number
-            value: 44908821
-          type: SequenceInterval
+        end:
+          type: Number
+          value: 44908822
+        start:
+          type: Number
+          value: 44908821
         sequence_id: ga4gh:SQ.IIB53T8CNeJJdUqzn9V_JnRtQadwWCbl
         type: SequenceLocation
       reverse_complement: false
@@ -205,14 +163,12 @@ Allele:
   - name: "rs7412@GRCh38>T w/SequenceState"
     in:
       location:
-        interval:
-          end:
-            type: Number
-            value: 44908822
-          start:
-            type: Number
-            value: 44908821
-          type: SequenceInterval
+        end:
+          type: Number
+          value: 44908822
+        start:
+          type: Number
+          value: 44908821
         sequence_id: ga4gh:SQ.IIB53T8CNeJJdUqzn9V_JnRtQadwWCbl
         type: SequenceLocation
       state:
@@ -227,13 +183,12 @@ Allele:
   - name: "rs7412@GRCh38>T w/LiteralSequenceExpression"
     in:
       location:
-        interval:
-          end:
-            type: Number
-            value: 44908822
-          start:
-            type: Number
-            value: 44908821
+        end:
+          type: Number
+          value: 44908822
+        start:
+          type: Number
+          value: 44908821
           type: SequenceInterval
         sequence_id: ga4gh:SQ.IIB53T8CNeJJdUqzn9V_JnRtQadwWCbl
         type: SequenceLocation
@@ -249,14 +204,12 @@ Allele:
   - name: "Allele w/ Composed Sequence Expression w/ order 1"
     in:
       location:
-        interval:
-          end:
-            type: Number
-            value: 44908822
-          start:
-            type: Number
-            value: 44908821
-          type: SequenceInterval
+        end:
+          type: Number
+          value: 44908822
+        start:
+          type: Number
+          value: 44908821
         sequence_id: ga4gh:SQ.IIB53T8CNeJJdUqzn9V_JnRtQadwWCbl
         type: SequenceLocation
       state:
@@ -280,14 +233,12 @@ Allele:
   - name: "Allele w/ Composed Sequence Expression w/ order 2"
     in:
       location:
-        interval:
-          end:
-            type: Number
-            value: 44908822
-          start:
-            type: Number
-            value: 44908821
-          type: SequenceInterval
+        end:
+          type: Number
+          value: 44908822
+        start:
+          type: Number
+          value: 44908821
         sequence_id: ga4gh:SQ.IIB53T8CNeJJdUqzn9V_JnRtQadwWCbl
         type: SequenceLocation
       state:
@@ -312,14 +263,12 @@ Haplotype:
     in:
       members:
       - location:
-          interval:
-            end:
-              type: Number
-              value: 44908822
-            start:
-              type: Number
-              value: 44908821
-            type: SequenceInterval
+          end:
+            type: Number
+            value: 44908822
+          start:
+            type: Number
+            value: 44908821
           sequence_id: ga4gh:SQ.IIB53T8CNeJJdUqzn9V_JnRtQadwWCbl
           type: SequenceLocation
         state:
@@ -327,14 +276,12 @@ Haplotype:
           type: LiteralSequenceExpression
         type: Allele
       - location:
-          interval:
-            end:
-              type: Number
-              value: 44908684
-            start:
-              type: Number
-              value: 44908683
-            type: SequenceInterval
+          end:
+            type: Number
+            value: 44908684
+          start:
+            type: Number
+            value: 44908683
           sequence_id: ga4gh:SQ.IIB53T8CNeJJdUqzn9V_JnRtQadwWCbl
           type: SequenceLocation
         state:
