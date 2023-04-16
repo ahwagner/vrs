@@ -8,6 +8,8 @@ a JSON Schema for representing many classes of genetic variation,
 conventions to maximize the utility of the schema, and a Python
 implementation that promotes adoption of the standard.
 
+New in 1.4, additional intro text!
+
 .. admonition:: Citation
 
    **The GA4GH Variation Representation Specification (VRS):
