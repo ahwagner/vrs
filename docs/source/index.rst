@@ -3,8 +3,8 @@ GA4GH Variation Representation Specification
 
 .. warning::
 
-   THIS IS NOT THE OFFICIAL GA4GH VRS DOCUMENTATION! This is a demonstration build used
-   to demonstrate advancements to the maturity model and versioning system for GKS
+   **THIS IS NOT THE OFFICIAL GA4GH VRS DOCUMENTATION!** This is a demonstration build
+   for discussing advancements to the maturity model and versioning system for GKS
    specification development. Please refer to https://vrs.ga4gh.org for the GA4GH VRS
    standard.
 
