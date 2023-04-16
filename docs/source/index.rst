@@ -1,6 +1,13 @@
 GA4GH Variation Representation Specification
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+.. warning::
+
+   THIS IS NOT THE OFFICIAL GA4GH VRS DOCUMENTATION! This is a demonstration build used
+   to demonstrate advancements to the maturity model and versioning system for GKS
+   specification development. Please refer to https://vrs.ga4gh.org for the GA4GH VRS
+   standard.
+
 The Variation Representation Specification (VRS, pronounced "verse") is a standard
 developed by the Global Alliance for Genomic Health to facilitate and
 improve sharing of genetic information.  The Specification consists of
@@ -8,7 +15,7 @@ a JSON Schema for representing many classes of genetic variation,
 conventions to maximize the utility of the schema, and a Python
 implementation that promotes adoption of the standard.
 
-New in 1.4, additional intro text!
+New in 2.0, additional intro text!
 
 .. admonition:: Citation
 
