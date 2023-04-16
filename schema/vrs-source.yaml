@@ -68,9 +68,9 @@ definitions:
       A Variation of multiple molecules in the context of a system, e.g.
       a genome, sample, or homologous chromosomes.
     oneOf:
+      - $ref: "#/definitions/CopyNumberCount"
+      - $ref: "#/definitions/CopyNumberChange"
       - $ref: "#/definitions/Genotype"
-      - $ref: "#/definitions/AbsoluteCopyNumber"
-      - $ref: "#/definitions/RelativeCopyNumber"
     discriminator:
       propertyName: type
 
@@ -83,7 +83,7 @@ definitions:
   # Molecular Variation
 
   Allele:
-    ga4gh_prefix: VA
+    type_prefix: VA
     inherits: MolecularVariation
     description: >-
       The state of a molecule at a :ref:`Location`.
@@ -108,7 +108,7 @@ definitions:
     required: [ "location", "state" ]
 
   Haplotype:
-    ga4gh_prefix: HT
+    vrs_prefix: HT
     inherits: MolecularVariation
     description: >-
       A set of non-overlapping :ref:`Allele` members that co-occur on the same molecule.
@@ -184,71 +184,70 @@ definitions:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # SystemicVariation
 
-  CopyNumber:
+  CopyNumberCount:
     inherits: SystemicVariation
-    description: >-
-      A measure of the copies of a :ref:`Location` within a system (e.g. a genome)
-    heritable_properties:
-      location:
-        oneOf:
-          - $ref_curie: gks.core:CURIE
-          - $ref: "#/definitions/Location"
-        description: >-
-          The location within the system.
-    heritable_required: [ "location" ]
-
-  AbsoluteCopyNumber:
-    ga4gh_prefix: ACN
-    inherits: CopyNumber
     type: object
+    maturity: draft
     description: >-
-      The absolute count of discrete copies of a :ref:`MolecularVariation`,
-      :ref:`Feature`, :ref:`SequenceExpression`, or a :ref:`CURIE` reference
+      The absolute count of discrete copies of a :ref:`Location` or :ref:`Feature`,
       within a system (e.g. genome, cell, etc.).
     properties:
       type:
         type: string
-        const: "AbsoluteCopyNumber"
-        default: "AbsoluteCopyNumber"
+        const: "CopyNumberCount"
+        default: "CopyNumberCount"
         description: >-
-          MUST be "AbsoluteCopyNumber".
+          MUST be "CopyNumberCount"
+      subject:
+        oneOf:
+          - $ref: "#/definitions/Location"
+          - $ref: "#/definitions/CURIE"
+          - $ref: "#/definitions/Feature"
+        description: >-
+          A location for which the number of systemic copies is described.
       copies:
         oneOf:
           - $ref: "#/definitions/Number"
           - $ref: "#/definitions/IndefiniteRange"
           - $ref: "#/definitions/DefiniteRange"
         description: >-
-          The integral number of copies of the subject in a system.
-    required: [ "copies" ]
+          The integral number of copies of the subject in a system
+    required: [ "subject", "copies" ]
 
-  RelativeCopyNumber:
-    ga4gh_prefix: RCN
-    inherits: CopyNumber
+  CopyNumberChange:
+    inherits: SystemicVariation
     type: object
     maturity: draft
     description: >-
-      The relative copies of a :ref:`MolecularVariation`,
-      :ref:`Feature`, :ref:`SequenceExpression`, or a :ref:`CURIE` reference
-      against an unspecified baseline in a system (e.g. genome, cell, etc.).
+      An assessment of the copy number of a :ref:`Location` or a :ref:`Feature` within a system (e.g. genome, cell, 
+      etc.) relative to a baseline ploidy.
     properties:
       type:
         type: string
-        const: "RelativeCopyNumber"
-        default: "RelativeCopyNumber"
+        const: "CopyNumberChange"
+        default: "CopyNumberChange"
         description: >-
-          MUST be "RelativeCopyNumber"
-      relative_copy_class:
+          MUST be "CopyNumberChange"
+      subject:
+        oneOf:
+          - $ref: "#/definitions/Location"
+          - $ref: "#/definitions/CURIE"
+          - $ref: "#/definitions/Feature"
+        description: >-
+          A location for which the number of systemic copies is described.
+      copy_change:
         type: string
-        enum: [ "EFO:0030070", "EFO:0030072", "EFO:0030071", "EFO:0030067", "EFO:0030069", "EFO:0030068" ]
+        enum: [ "efo:0030069", "efo:0020073", "efo:0030068", "efo:0030067", "efo:0030064", "efo:0030070", "efo:0030071", "efo:0030072" ]
         description: >-
-          MUST be one of "EFO:0030070", "EFO:0030072", "EFO:0030071", "EFO:0030067", "EFO:0030069", or "EFO:0030068".
-    required: [ "relative_copy_class" ]
+          MUST be one of "efo:0030069" (complete genomic loss), "efo:0020073" (high-level loss), 
+          "efo:0030068" (low-level loss), "efo:0030067" (loss), "efo:0030064" (regional base ploidy), 
+          "efo:0030070" (gain), "efo:0030071" (low-level gain), "efo:0030072" (high-level gain).
+    required: [  "subject", "copy_change" ]
 
   Genotype:
-    ga4gh_prefix: GT
     inherits: SystemicVariation
     description: >-
-      A quantified set of _in-trans_ :ref:`MolecularVariation` at a genomic locus.
+      A quantified set of :ref:`MolecularVariation` associated with a genomic locus.
     type: object
     properties:
       type:
@@ -259,9 +258,9 @@ definitions:
           MUST be "Genotype"
       members:
         type: array
-        ordered: false
         uniqueItems: true
         minItems: 1
+        ordered: false
         items:
           $ref: "#/definitions/GenotypeMember"
         description: >-
@@ -274,10 +273,11 @@ definitions:
           - $ref: "#/definitions/DefiniteRange"
         description: >-
           The total number of copies of all :ref:`MolecularVariation` at this locus,
-          MUST be greater than or equal to the sum of :ref:`GenotypeMember` copy counts.
-          If greater than the total counts, this implies additional 
-          :ref:`MolecularVariation` that are expected to exist but are not explicitly
-          indicated.
+          MUST be greater than or equal to the sum of :ref:`GenotypeMember` copy counts
+          and MUST be greater than or equal to 1.
+          If greater than the total of GenotypeMember counts, this field describes 
+          additional :ref:`MolecularVariation` that exist but are not 
+          explicitly described.
     required: [ "members", "count" ]
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -459,39 +459,6 @@ definitions:
           - $ref: "#/definitions/DefiniteRange"
         description: >-
           The count of repeated units, as an integer or inclusive range
-    allOf:
-      - if:
-          properties:
-            count:
-              $ref: "#/definitions/Number"
-        then:
-          properties:
-            count:
-              properties:
-                value:
-                  minimum: 0
-      - if:
-          properties:
-            count:
-              $ref: "#/definitions/IndefiniteRange"
-        then:
-          properties:
-            count:
-              properties:
-                value:
-                  minimum: 0
-      - if:
-          properties:
-            count:
-              $ref: "#/definitions/DefiniteRange"
-        then:
-          properties:
-            count:
-              properties:
-                min:
-                  minimum: 0
-                max:
-                  minimum: 0
     required: [ "seq_expr", "count" ]
 
   ComposedSequenceExpression:

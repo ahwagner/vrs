@@ -5,9 +5,13 @@ definitions:
   Variation:
     description: A representation of the state of one or more biomolecules.
     oneOf:
-    - $ref: '#/definitions/MolecularVariation'
-    - $ref: '#/definitions/SystemicVariation'
-    - $ref: '#/definitions/UtilityVariation'
+    - $ref: '#/definitions/Allele'
+    - $ref: '#/definitions/CopyNumberChange'
+    - $ref: '#/definitions/CopyNumberCount'
+    - $ref: '#/definitions/Genotype'
+    - $ref: '#/definitions/Haplotype'
+    - $ref: '#/definitions/Text'
+    - $ref: '#/definitions/VariationSet'
     discriminator:
       propertyName: type
   MolecularVariation:
@@ -30,13 +34,13 @@ definitions:
     description: A Variation of multiple molecules in the context of a system, e.g.
       a genome, sample, or homologous chromosomes.
     oneOf:
+    - $ref: '#/definitions/CopyNumberChange'
+    - $ref: '#/definitions/CopyNumberCount'
     - $ref: '#/definitions/Genotype'
-    - $ref: '#/definitions/AbsoluteCopyNumber'
-    - $ref: '#/definitions/RelativeCopyNumber'
     discriminator:
       propertyName: type
   Allele:
-    ga4gh_prefix: VA
+    type_prefix: VA
     description: The state of a molecule at a Location.
     type: object
     properties:
@@ -70,7 +74,7 @@ definitions:
     - type
     additionalProperties: false
   Haplotype:
-    ga4gh_prefix: HT
+    vrs_prefix: HT
     description: A set of non-overlapping Allele members that co-occur on the same
       molecule.
     type: object
@@ -147,11 +151,11 @@ definitions:
         uniqueItems: true
         items:
           oneOf:
-          - $ref: '#/definitions/AbsoluteCopyNumber'
           - $ref: '#/definitions/Allele'
+          - $ref: '#/definitions/CopyNumberChange'
+          - $ref: '#/definitions/CopyNumberCount'
           - $ref: '#/definitions/Genotype'
           - $ref: '#/definitions/Haplotype'
-          - $ref: '#/definitions/RelativeCopyNumber'
           - $ref: '#/definitions/Text'
           - $ref: '#/definitions/VariationSet'
           - $ref: core.json#/$defs/CURIE
@@ -161,12 +165,11 @@ definitions:
     - members
     - type
     additionalProperties: false
-  AbsoluteCopyNumber:
-    ga4gh_prefix: ACN
+  CopyNumberCount:
     type: object
-    description: The absolute count of discrete copies of a MolecularVariation, Feature,
-      SequenceExpression, or a CURIE reference within a system (e.g. genome, cell,
-      etc.).
+    maturity: draft
+    description: The absolute count of discrete copies of a Location or Feature, within
+      a system (e.g. genome, cell, etc.).
     properties:
       id:
         $ref: core.json#/$defs/CURIE
@@ -176,33 +179,32 @@ definitions:
           (represented by namespace, accordingly).
       type:
         type: string
-        const: AbsoluteCopyNumber
-        default: AbsoluteCopyNumber
-        description: MUST be "AbsoluteCopyNumber".
-      location:
+        const: CopyNumberCount
+        default: CopyNumberCount
+        description: MUST be "CopyNumberCount"
+      subject:
         oneOf:
+        - $ref: '#/definitions/CURIE'
         - $ref: '#/definitions/ChromosomeLocation'
+        - $ref: '#/definitions/Feature'
         - $ref: '#/definitions/SequenceLocation'
-        - $ref: core.json#/$defs/CURIE
-        description: The location within the system.
+        description: A location for which the number of systemic copies is described.
       copies:
         oneOf:
         - $ref: '#/definitions/DefiniteRange'
         - $ref: '#/definitions/IndefiniteRange'
         - $ref: '#/definitions/Number'
-        description: The integral number of copies of the subject in a system.
+        description: The integral number of copies of the subject in a system
     required:
     - copies
-    - location
+    - subject
     - type
     additionalProperties: false
-  RelativeCopyNumber:
-    ga4gh_prefix: RCN
+  CopyNumberChange:
     type: object
     maturity: draft
-    description: The relative copies of a MolecularVariation, Feature, SequenceExpression,
-      or a CURIE reference against an unspecified baseline in a system (e.g. genome,
-      cell, etc.).
+    description: An assessment of the copy number of a Location or a Feature within
+      a system (e.g. genome, cell,  etc.) relative to a baseline ploidy.
     properties:
       id:
         $ref: core.json#/$defs/CURIE
@@ -212,34 +214,39 @@ definitions:
           (represented by namespace, accordingly).
       type:
         type: string
-        const: RelativeCopyNumber
-        default: RelativeCopyNumber
-        description: MUST be "RelativeCopyNumber"
-      location:
+        const: CopyNumberChange
+        default: CopyNumberChange
+        description: MUST be "CopyNumberChange"
+      subject:
         oneOf:
+        - $ref: '#/definitions/CURIE'
         - $ref: '#/definitions/ChromosomeLocation'
+        - $ref: '#/definitions/Feature'
         - $ref: '#/definitions/SequenceLocation'
-        - $ref: core.json#/$defs/CURIE
-        description: The location within the system.
-      relative_copy_class:
+        description: A location for which the number of systemic copies is described.
+      copy_change:
         type: string
         enum:
-        - EFO:0030070
-        - EFO:0030072
-        - EFO:0030071
-        - EFO:0030067
-        - EFO:0030069
-        - EFO:0030068
-        description: MUST be one of "EFO:0030070", "EFO:0030072", "EFO:0030071", "EFO:0030067",
-          "EFO:0030069", or "EFO:0030068".
+        - efo:0030069
+        - efo:0020073
+        - efo:0030068
+        - efo:0030067
+        - efo:0030064
+        - efo:0030070
+        - efo:0030071
+        - efo:0030072
+        description: MUST be one of "efo:0030069" (complete genomic loss), "efo:0020073"
+          (high-level loss),  "efo:0030068" (low-level loss), "efo:0030067" (loss),
+          "efo:0030064" (regional base ploidy),  "efo:0030070" (gain), "efo:0030071"
+          (low-level gain), "efo:0030072" (high-level gain).
     required:
-    - location
-    - relative_copy_class
+    - copy_change
+    - subject
     - type
     additionalProperties: false
   Genotype:
-    ga4gh_prefix: GT
-    description: A quantified set of _in-trans_ MolecularVariation at a genomic locus.
+    description: A quantified set of MolecularVariation associated with a genomic
+      locus.
     type: object
     properties:
       id:
@@ -255,9 +262,9 @@ definitions:
         description: MUST be "Genotype"
       members:
         type: array
-        ordered: false
         uniqueItems: true
         minItems: 1
+        ordered: false
         items:
           $ref: '#/definitions/GenotypeMember'
         description: Each GenotypeMember in `members` describes a MolecularVariation
@@ -268,9 +275,10 @@ definitions:
         - $ref: '#/definitions/IndefiniteRange'
         - $ref: '#/definitions/Number'
         description: The total number of copies of all MolecularVariation at this
-          locus, MUST be greater than or equal to the sum of GenotypeMember copy counts.
-          If greater than the total counts, this implies additional  MolecularVariation
-          that are expected to exist but are not explicitly indicated.
+          locus, MUST be greater than or equal to the sum of GenotypeMember copy counts
+          and MUST be greater than or equal to 1. If greater than the total of GenotypeMember
+          counts, this field describes  additional MolecularVariation that exist but
+          are not  explicitly described.
     required:
     - count
     - members
@@ -367,10 +375,10 @@ definitions:
   SequenceExpression:
     description: An expression describing a Sequence.
     oneOf:
-    - $ref: '#/definitions/LiteralSequenceExpression'
-    - $ref: '#/definitions/DerivedSequenceExpression'
-    - $ref: '#/definitions/RepeatedSequenceExpression'
     - $ref: '#/definitions/ComposedSequenceExpression'
+    - $ref: '#/definitions/DerivedSequenceExpression'
+    - $ref: '#/definitions/LiteralSequenceExpression'
+    - $ref: '#/definitions/RepeatedSequenceExpression'
     discriminator:
       propertyName: type
   LiteralSequenceExpression:
@@ -434,39 +442,6 @@ definitions:
         - $ref: '#/definitions/IndefiniteRange'
         - $ref: '#/definitions/Number'
         description: The count of repeated units, as an integer or inclusive range
-    allOf:
-    - if:
-        properties:
-          count:
-            $ref: '#/definitions/Number'
-      then:
-        properties:
-          count:
-            properties:
-              value:
-                minimum: 0
-    - if:
-        properties:
-          count:
-            $ref: '#/definitions/IndefiniteRange'
-      then:
-        properties:
-          count:
-            properties:
-              value:
-                minimum: 0
-    - if:
-        properties:
-          count:
-            $ref: '#/definitions/DefiniteRange'
-      then:
-        properties:
-          count:
-            properties:
-              min:
-                minimum: 0
-              max:
-                minimum: 0
     required:
     - count
     - seq_expr
