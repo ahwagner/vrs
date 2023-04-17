@@ -46,6 +46,9 @@ version = _parse_release_as_version(release)
 rst_epilog_fn = os.path.join(os.path.dirname(__file__), 'rst_epilog')
 rst_epilog = open(rst_epilog_fn).read().format(release=release)
 
+rst_prolog_fn = os.path.join(os.path.dirname(__file__), 'rst_prolog')
+rst_prolog = open(rst_prolog_fn).read()
+
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
