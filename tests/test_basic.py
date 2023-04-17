@@ -63,9 +63,9 @@ def test_maturity():
         RC = 3
         Stable = 4
 
-    target = os.getenv('github.base_ref', None)
+    pr_target = os.getenv('github.base_ref', None)
 
-    branch_name = target | Repository('.').head.shorthand
+    branch_name = pr_target or Repository('.').head.shorthand
     if re.match('^\d+\.\d+$', branch_name):
         assert_all_models_have_maturity_level('Stable')
     elif re.match('^\d+\.\d+-beta$', branch_name):
