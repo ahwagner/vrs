@@ -52,7 +52,7 @@ def test_maturity():
                 try:
                     assert getattr(Maturity, cls_level).value >= getattr(Maturity, level).value
                 except AssertionError:
-                    msg = f'Maturity level for {cls} ({cls_level}) inappropriate for branch.'
+                    msg = f'Maturity level for {cls} ({cls_level}) inappropriate for target branch.'
                     print("\n" + msg)
                     assert cls_level == level, msg
 
