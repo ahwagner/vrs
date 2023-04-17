@@ -51,8 +51,9 @@ def test_maturity():
                 try:
                     assert getattr(Maturity, cls_level).value >= getattr(Maturity, level).value
                 except AssertionError:
-                    print(f'\nMaturity level for {cls} ({cls_level}) inappropriate for branch.')
-                    assert cls_level == level
+                    msg = f'Maturity level for {cls} ({cls_level}) inappropriate for branch.'
+                    print("\n" + msg)
+                    assert cls_level == level, msg
 
     class Maturity(Enum):
         NA = 0
