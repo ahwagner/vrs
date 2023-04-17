@@ -9,6 +9,7 @@ import pytest
 from pygit2 import Repository
 import re
 from enum import Enum
+import os
 
 from config import vrs_json_path, vrs_yaml_path, root_dir
 
@@ -62,7 +63,9 @@ def test_maturity():
         RC = 3
         Stable = 4
 
-    branch_name = Repository('.').head.shorthand
+    target = os.getenv('github.base_ref', None)
+
+    branch_name = target | Repository('.').head.shorthand
     if re.match('^\d+\.\d+$', branch_name):
         assert_all_models_have_maturity_level('Stable')
     elif re.match('^\d+\.\d+-beta$', branch_name):
