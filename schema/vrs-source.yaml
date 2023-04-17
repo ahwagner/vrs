@@ -73,6 +73,7 @@ definitions:
   # Molecular Variation
 
   Allele:
+    maturity: Stable
     inherits: MolecularVariation
     description: >-
       The state of a molecule at a :ref:`Location`.
@@ -97,6 +98,7 @@ definitions:
     required: [ "location", "state" ]
 
   Haplotype:
+    maturity: Stable
     inherits: MolecularVariation
     description: >-
       A set of non-overlapping :ref:`Allele` members that co-occur on the same molecule.
@@ -125,6 +127,7 @@ definitions:
   # SystemicVariation
 
   CopyNumberCount:
+    maturity: Stable
     inherits: SystemicVariation
     type: object
     description: >-
@@ -154,9 +157,9 @@ definitions:
     required: [ "subject", "copies" ]
 
   CopyNumberChange:
+    maturity: Stable
     inherits: SystemicVariation
     type: object
-    maturity: draft
     description: >-
       An assessment of the copy number of a :ref:`Location` or a :ref:`Feature` within a system (e.g. genome, cell, 
       etc.) relative to a baseline ploidy.
@@ -184,6 +187,7 @@ definitions:
     required: [  "subject", "copy_change" ]
 
   Genotype:
+    maturity: Stable
     inherits: SystemicVariation
     description: >-
       A quantified set of :ref:`MolecularVariation` associated with a genomic locus.
@@ -242,6 +246,7 @@ definitions:
       propertyName: type
 
   ChromosomeLocation:
+    maturity: Stable
     inherits: Location
     description: >-
       A Location on a chromosome defined by a species and chromosome name.
@@ -277,6 +282,7 @@ definitions:
     required: [ "species_id", "chr", "start", "end" ]
 
   SequenceLocation:
+    maturity: Stable
     inherits: Location
     description: >-
       A :ref:`Location` defined by an interval on a referenced :ref:`Sequence`.
@@ -333,6 +339,7 @@ definitions:
     heritable_required: ["type"]
 
   LiteralSequenceExpression:
+    maturity: Stable
     inherits: SequenceExpression
     description: >-
       An explicit expression of a Sequence.
@@ -349,6 +356,7 @@ definitions:
     required: [ "sequence" ]
 
   DerivedSequenceExpression:
+    maturity: Stable
     inherits: SequenceExpression
     description: >-
       An approximate expression of a sequence that is derived from
@@ -376,6 +384,7 @@ definitions:
     required: [ "location", "reverse_complement" ]
 
   RepeatedSequenceExpression:
+    maturity: Stable
     inherits: SequenceExpression
     description: >-
       An expression of a sequence comprised of a tandem repeating subsequence.
@@ -402,6 +411,7 @@ definitions:
     required: [ "seq_expr", "count" ]
 
   ComposedSequenceExpression:
+    maturity: Stable
     description: >-
       An expression of a sequence composed from multiple other
       :ref:`Sequence Expressions<SequenceExpression>`
@@ -439,6 +449,7 @@ definitions:
   # Nested Classes
 
   GenotypeMember:
+    maturity: Stable
     description: >-
       A class for expressing the count of a specific :ref:`MolecularVariation` present
       *in-trans* at a genomic locus represented by a :ref:`Genotype`.
@@ -484,6 +495,7 @@ definitions:
     heritable_required: [ "type" ]
 
   Gene:
+    maturity: Stable
     inherits: Feature
     description: >-
       A reference to a Gene as defined by an authority. For human genes,
@@ -506,6 +518,7 @@ definitions:
   # Numerics, Comparators, and Ranges
 
   Number:
+    maturity: Stable
     description: >-
       A simple integer value as a VRS class.
     type: object
@@ -521,6 +534,7 @@ definitions:
     required: [ "type", "value" ]
 
   DefiniteRange:
+    maturity: Stable
     description: >-
       A bounded, inclusive range of numbers.
     type: object
@@ -539,6 +553,7 @@ definitions:
     required: ["type", "min", "max"]
 
   IndefiniteRange:
+    maturity: Stable
     description: >-
       A half-bounded range of numbers represented as a number bound and
       associated comparator. The bound operator is interpreted as follows:
@@ -569,6 +584,7 @@ definitions:
   # =============================================================================
 
   CURIE:
+    maturity: Stable
     description: >-
       A `W3C Compact URI <https://www.w3.org/TR/curie/>`_ formatted string.
       A CURIE string has the structure ``prefix``:``reference``, as defined by
@@ -578,6 +594,7 @@ definitions:
     example: "ensembl:ENSG00000139618"
 
   HumanCytoband:
+    maturity: Stable
     description: >-
       A character string representing cytobands derived from the
       *International System for Human Cytogenomic Nomenclature* (ISCN)
@@ -587,6 +604,7 @@ definitions:
     example: "q22.3"
 
   Residue:
+    maturity: Stable
     description: >-
       A character representing a specific residue (i.e., molecular species)
       or groupings of these ("ambiguity codes"), using `one-letter IUPAC
@@ -596,6 +614,7 @@ definitions:
     pattern: '[A-Z*\-]'
 
   Sequence:
+    maturity: Stable
     description: >-
       A character string of :ref:`Residues <Residue>` that represents a biological
       sequence using the conventional sequence order (5’-to-3’ for

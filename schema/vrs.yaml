@@ -29,6 +29,7 @@ definitions:
     discriminator:
       propertyName: type
   Allele:
+    maturity: Stable
     description: The state of a molecule at a Location.
     type: object
     properties:
@@ -59,6 +60,7 @@ definitions:
     - type
     additionalProperties: false
   Haplotype:
+    maturity: Stable
     description: A set of non-overlapping Allele members that co-occur on the same
       molecule.
     type: object
@@ -87,6 +89,7 @@ definitions:
     - type
     additionalProperties: false
   CopyNumberCount:
+    maturity: Stable
     type: object
     description: The absolute count of discrete copies of a Location or Feature, within
       a system (e.g. genome, cell, etc.).
@@ -118,8 +121,8 @@ definitions:
     - type
     additionalProperties: false
   CopyNumberChange:
+    maturity: Stable
     type: object
-    maturity: draft
     description: An assessment of the copy number of a Location or a Feature within
       a system (e.g. genome, cell,  etc.) relative to a baseline ploidy.
     properties:
@@ -159,6 +162,7 @@ definitions:
     - type
     additionalProperties: false
   Genotype:
+    maturity: Stable
     description: A quantified set of MolecularVariation associated with a genomic
       locus.
     type: object
@@ -203,6 +207,7 @@ definitions:
     discriminator:
       propertyName: type
   ChromosomeLocation:
+    maturity: Stable
     description: A Location on a chromosome defined by a species and chromosome name.
     type: object
     properties:
@@ -239,6 +244,7 @@ definitions:
     - type
     additionalProperties: false
   SequenceLocation:
+    maturity: Stable
     description: A Location defined by an interval on a referenced Sequence.
     type: object
     properties:
@@ -285,6 +291,7 @@ definitions:
     discriminator:
       propertyName: type
   LiteralSequenceExpression:
+    maturity: Stable
     description: An explicit expression of a Sequence.
     type: object
     properties:
@@ -301,6 +308,7 @@ definitions:
     - type
     additionalProperties: false
   DerivedSequenceExpression:
+    maturity: Stable
     description: An approximate expression of a sequence that is derived from a referenced
       sequence location. Use of this class indicates that the derived sequence is
       *approximately equivalent* to the reference indicated, and is typically used
@@ -326,6 +334,7 @@ definitions:
     - type
     additionalProperties: false
   RepeatedSequenceExpression:
+    maturity: Stable
     description: An expression of a sequence comprised of a tandem repeating subsequence.
     type: object
     properties:
@@ -351,6 +360,7 @@ definitions:
     - type
     additionalProperties: false
   ComposedSequenceExpression:
+    maturity: Stable
     description: An expression of a sequence composed from multiple other Sequence
       Expressions objects. MUST have at least one component that is not a ref:`LiteralSequenceExpression`.
       CANNOT be composed from nested composed sequence expressions.
@@ -381,6 +391,7 @@ definitions:
     required:
     - components
   GenotypeMember:
+    maturity: Stable
     description: A class for expressing the count of a specific MolecularVariation
       present *in-trans* at a genomic locus represented by a Genotype.
     type: object
@@ -415,6 +426,7 @@ definitions:
     discriminator:
       propertyName: type
   Gene:
+    maturity: Stable
     description: A reference to a Gene as defined by an authority. For human genes,
       the use of [hgnc](https://registry.identifiers.org/registry/hgnc) as the gene
       authority is RECOMMENDED.
@@ -433,6 +445,7 @@ definitions:
     - type
     additionalProperties: false
   Number:
+    maturity: Stable
     description: A simple integer value as a VRS class.
     type: object
     properties:
@@ -449,6 +462,7 @@ definitions:
     - value
     additionalProperties: false
   DefiniteRange:
+    maturity: Stable
     description: A bounded, inclusive range of numbers.
     type: object
     properties:
@@ -469,6 +483,7 @@ definitions:
     - type
     additionalProperties: false
   IndefiniteRange:
+    maturity: Stable
     description: 'A half-bounded range of numbers represented as a number bound and
       associated comparator. The bound operator is interpreted as follows: ''>=''
       are all numbers greater than and including `value`, ''<='' are all numbers less
@@ -496,6 +511,7 @@ definitions:
     - value
     additionalProperties: false
   CURIE:
+    maturity: Stable
     description: A [W3C Compact URI](https://www.w3.org/TR/curie/) formatted string.
       A CURIE string has the structure ``prefix``:``reference``, as defined by the
       W3C syntax.
@@ -503,18 +519,21 @@ definitions:
     pattern: ^\w[^:]*:.+$
     example: ensembl:ENSG00000139618
   HumanCytoband:
+    maturity: Stable
     description: A character string representing cytobands derived from the *International
       System for Human Cytogenomic Nomenclature* (ISCN) [guidelines](http://doi.org/10.1159/isbn.978-3-318-06861-0).
     type: string
     pattern: ^cen|[pq](ter|([1-9][0-9]*(\.[1-9][0-9]*)?))$
     example: q22.3
   Residue:
+    maturity: Stable
     description: A character representing a specific residue (i.e., molecular species)
       or groupings of these ("ambiguity codes"), using [one-letter IUPAC abbreviations](https://en.wikipedia.org/wiki/International_Union_of_Pure_and_Applied_Chemistry#Amino_acid_and_nucleotide_base_codes)
       for nucleic acids and amino acids.
     type: string
     pattern: '[A-Z*\-]'
   Sequence:
+    maturity: Stable
     description: "A character string of Residues that represents a biological sequence\
       \ using the conventional sequence order (5\u2019-to-3\u2019 for nucleic acid\
       \ sequences, and amino-to-carboxyl for amino acid sequences). IUPAC ambiguity\

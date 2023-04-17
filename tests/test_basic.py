@@ -6,6 +6,9 @@ from schema.helpers import pjs_filter
 from ga4gh.gks.metaschema.tools.source_proc import YamlSchemaProcessor
 from jsonschema import validate, RefResolver
 import pytest
+from pygit2 import Repository
+import re
+from enum import Enum
 
 from config import vrs_json_path, vrs_yaml_path, root_dir
 
@@ -38,3 +41,32 @@ def test_schema_validation():
             validate(instance=t["in"],
                      schema=schema_definitions[cls],
                      resolver=resolver)
+
+def test_maturity():
+    """Test that all classes are at an appropriate maturity model for branch"""
+    def assert_all_models_have_maturity_level(level):
+        for cls in p.processed_classes:
+            if not p.class_is_abstract(cls):
+                cls_level = p.defs[cls].get('maturity', 'NA')
+                try:
+                    assert getattr(Maturity, cls_level).value >= getattr(Maturity, level).value
+                except AssertionError:
+                    print(f'\nMaturity level for {cls} ({cls_level}) inappropriate for branch.')
+                    assert cls_level == level
+
+    class Maturity(Enum):
+        NA = 0
+        Alpha = 1
+        Beta = 2
+        RC = 3
+        Stable = 4
+
+    branch_name = Repository('.').head.shorthand
+    if re.match('^\d+\.\d+$', branch_name):
+        assert_all_models_have_maturity_level('Stable')
+    elif re.match('^\d+\.\d+-beta$', branch_name):
+        assert_all_models_have_maturity_level('Beta')
+    elif re.match('^\d+\.\d+-rc$', branch_name):
+        assert_all_models_have_maturity_level('RC')
+    else:
+        assert True
