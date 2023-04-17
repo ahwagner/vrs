@@ -1,0 +1,14 @@
+{
+   "$schema": "http://json-schema.org/draft-07/schema",
+   "title": "Feature",
+   "type": "object",
+   "description": "A named entity that can be mapped to a Location. Genes, protein domains, exons, and chromosomes are some examples of common biological entities that may be Features.",
+   "oneOf": [
+      {
+         "$ref": "#/definitions/Gene"
+      }
+   ],
+   "discriminator": {
+      "propertyName": "type"
+   }
+}

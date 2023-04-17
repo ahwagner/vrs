@@ -1,0 +1,56 @@
+{
+   "$schema": "http://json-schema.org/draft-07/schema",
+   "title": "CopyNumberChange",
+   "type": "object",
+   "maturity": "Stable",
+   "description": "An assessment of the copy number of a Location or a Feature within a system (e.g. genome, cell,  etc.) relative to a baseline ploidy.",
+   "properties": {
+      "_id": {
+         "$ref": "#/definitions/CURIE",
+         "description": "Variation Id. MUST be unique within document."
+      },
+      "type": {
+         "type": "string",
+         "const": "CopyNumberChange",
+         "default": "CopyNumberChange",
+         "description": "MUST be \"CopyNumberChange\""
+      },
+      "subject": {
+         "oneOf": [
+            {
+               "$ref": "#/definitions/CURIE"
+            },
+            {
+               "$ref": "#/definitions/ChromosomeLocation"
+            },
+            {
+               "$ref": "#/definitions/Gene"
+            },
+            {
+               "$ref": "#/definitions/SequenceLocation"
+            }
+         ],
+         "description": "A location for which the number of systemic copies is described."
+      },
+      "copy_change": {
+         "type": "string",
+         "enum": [
+            "efo:0030069",
+            "efo:0020073",
+            "efo:0030068",
+            "efo:0030067",
+            "efo:0030064",
+            "efo:0030070",
+            "efo:0030071",
+            "efo:0030072"
+         ],
+         "description": "MUST be one of \"efo:0030069\" (complete genomic loss), \"efo:0020073\" (high-level loss),  \"efo:0030068\" (low-level loss), \"efo:0030067\" (loss), \"efo:0030064\" (regional base ploidy),  \"efo:0030070\" (gain), \"efo:0030071\" (low-level gain), \"efo:0030072\" (high-level gain)."
+      }
+   },
+   "required": [
+      "copy_change",
+      "subject",
+      "type"
+   ],
+   "additionalProperties": false
+}

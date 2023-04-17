@@ -1,0 +1,56 @@
+{
+   "$schema": "http://json-schema.org/draft-07/schema",
+   "title": "Allele",
+   "type": "object",
+   "maturity": "Stable",
+   "description": "The state of a molecule at a Location.",
+   "properties": {
+      "_id": {
+         "$ref": "#/definitions/CURIE",
+         "description": "Variation Id. MUST be unique within document."
+      },
+      "type": {
+         "type": "string",
+         "const": "Allele",
+         "default": "Allele",
+         "description": "MUST be \"Allele\""
+      },
+      "location": {
+         "oneOf": [
+            {
+               "$ref": "#/definitions/CURIE"
+            },
+            {
+               "$ref": "#/definitions/ChromosomeLocation"
+            },
+            {
+               "$ref": "#/definitions/SequenceLocation"
+            }
+         ],
+         "description": "Where Allele is located"
+      },
+      "state": {
+         "description": "An expression of the sequence state",
+         "oneOf": [
+            {
+               "$ref": "#/definitions/ComposedSequenceExpression"
+            },
+            {
+               "$ref": "#/definitions/DerivedSequenceExpression"
+            },
+            {
+               "$ref": "#/definitions/LiteralSequenceExpression"
+            },
+            {
+               "$ref": "#/definitions/RepeatedSequenceExpression"
+            }
+         ]
+      }
+   },
+   "required": [
+      "location",
+      "state",
+      "type"
+   ],
+   "additionalProperties": false
+}

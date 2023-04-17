@@ -1,0 +1,49 @@
+{
+   "$schema": "http://json-schema.org/draft-07/schema",
+   "title": "Genotype",
+   "type": "object",
+   "maturity": "Stable",
+   "description": "A quantified set of MolecularVariation associated with a genomic locus.",
+   "properties": {
+      "_id": {
+         "$ref": "#/definitions/CURIE",
+         "description": "Variation Id. MUST be unique within document."
+      },
+      "type": {
+         "type": "string",
+         "const": "Genotype",
+         "default": "Genotype",
+         "description": "MUST be \"Genotype\""
+      },
+      "members": {
+         "type": "array",
+         "uniqueItems": true,
+         "minItems": 1,
+         "ordered": false,
+         "items": {
+            "$ref": "#/definitions/GenotypeMember"
+         },
+         "description": "Each GenotypeMember in `members` describes a MolecularVariation and the count of that variation at the locus."
+      },
+      "count": {
+         "oneOf": [
+            {
+               "$ref": "#/definitions/DefiniteRange"
+            },
+            {
+               "$ref": "#/definitions/IndefiniteRange"
+            },
+            {
+               "$ref": "#/definitions/Number"
+            }
+         ],
+         "description": "The total number of copies of all MolecularVariation at this locus, MUST be greater than or equal to the sum of GenotypeMember copy counts and MUST be greater than or equal to 1. If greater than the total of GenotypeMember counts, this field describes  additional MolecularVariation that exist but are not  explicitly described."
+      }
+   },
+   "required": [
+      "count",
+      "members",
+      "type"
+   ],
+   "additionalProperties": false
+}

@@ -1,0 +1,41 @@
+{
+   "$schema": "http://json-schema.org/draft-07/schema",
+   "title": "Haplotype",
+   "type": "object",
+   "maturity": "Stable",
+   "description": "A set of non-overlapping Allele members that co-occur on the same molecule.",
+   "properties": {
+      "_id": {
+         "$ref": "#/definitions/CURIE",
+         "description": "Variation Id. MUST be unique within document."
+      },
+      "type": {
+         "type": "string",
+         "const": "Haplotype",
+         "default": "Haplotype",
+         "description": "MUST be \"Haplotype\""
+      },
+      "members": {
+         "type": "array",
+         "minItems": 2,
+         "uniqueItems": true,
+         "ordered": false,
+         "items": {
+            "oneOf": [
+               {
+                  "$ref": "#/definitions/Allele"
+               },
+               {
+                  "$ref": "#/definitions/CURIE"
+               }
+            ]
+         },
+         "description": "List of Alleles, or references to Alleles, that comprise this Haplotype."
+      }
+   },
+   "required": [
+      "members",
+      "type"
+   ],
+   "additionalProperties": false
+}

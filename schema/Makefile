@@ -6,7 +6,7 @@
 JSYAMLS:=vrs.yaml
 JSONS:=${JSYAMLS:.yaml=.json}
 
-all: ${JSONS} defs
+all: ${JSONS} defs jschema
 
 %.json: %.yaml
 	jsy2js.py <$< >$@
@@ -17,6 +17,10 @@ all: ${JSONS} defs
 defs:
 	rm -rf defs
 	y2t.py vrs-source.yaml
+
+jschema:
+	rm -rf json_schema
+	source2splitjs.py vrs-source.yaml
 
 ## # npm install -g json-dereference-cli
 ## %.json: %.yaml

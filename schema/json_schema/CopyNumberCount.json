@@ -1,0 +1,56 @@
+{
+   "$schema": "http://json-schema.org/draft-07/schema",
+   "title": "CopyNumberCount",
+   "type": "object",
+   "maturity": "Stable",
+   "description": "The absolute count of discrete copies of a Location or Feature, within a system (e.g. genome, cell, etc.).",
+   "properties": {
+      "_id": {
+         "$ref": "#/definitions/CURIE",
+         "description": "Variation Id. MUST be unique within document."
+      },
+      "type": {
+         "type": "string",
+         "const": "CopyNumberCount",
+         "default": "CopyNumberCount",
+         "description": "MUST be \"CopyNumberCount\""
+      },
+      "subject": {
+         "oneOf": [
+            {
+               "$ref": "#/definitions/CURIE"
+            },
+            {
+               "$ref": "#/definitions/ChromosomeLocation"
+            },
+            {
+               "$ref": "#/definitions/Gene"
+            },
+            {
+               "$ref": "#/definitions/SequenceLocation"
+            }
+         ],
+         "description": "A location for which the number of systemic copies is described."
+      },
+      "copies": {
+         "oneOf": [
+            {
+               "$ref": "#/definitions/DefiniteRange"
+            },
+            {
+               "$ref": "#/definitions/IndefiniteRange"
+            },
+            {
+               "$ref": "#/definitions/Number"
+            }
+         ],
+         "description": "The integral number of copies of the subject in a system"
+      }
+   },
+   "required": [
+      "copies",
+      "subject",
+      "type"
+   ],
+   "additionalProperties": false
+}

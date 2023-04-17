@@ -1,0 +1,46 @@
+{
+   "$schema": "http://json-schema.org/draft-07/schema",
+   "title": "RepeatedSequenceExpression",
+   "type": "object",
+   "maturity": "Stable",
+   "description": "An expression of a sequence comprised of a tandem repeating subsequence.",
+   "properties": {
+      "type": {
+         "type": "string",
+         "const": "RepeatedSequenceExpression",
+         "default": "RepeatedSequenceExpression",
+         "description": "MUST be \"RepeatedSequenceExpression\""
+      },
+      "seq_expr": {
+         "oneOf": [
+            {
+               "$ref": "#/definitions/DerivedSequenceExpression"
+            },
+            {
+               "$ref": "#/definitions/LiteralSequenceExpression"
+            }
+         ],
+         "description": "An expression of the repeating subsequence"
+      },
+      "count": {
+         "oneOf": [
+            {
+               "$ref": "#/definitions/DefiniteRange"
+            },
+            {
+               "$ref": "#/definitions/IndefiniteRange"
+            },
+            {
+               "$ref": "#/definitions/Number"
+            }
+         ],
+         "description": "The count of repeated units, as an integer or inclusive range"
+      }
+   },
+   "required": [
+      "count",
+      "seq_expr",
+      "type"
+   ],
+   "additionalProperties": false
+}

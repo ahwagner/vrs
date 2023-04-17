@@ -1,0 +1,24 @@
+{
+   "$schema": "http://json-schema.org/draft-07/schema",
+   "title": "Gene",
+   "type": "object",
+   "maturity": "Stable",
+   "description": "A reference to a Gene as defined by an authority. For human genes, the use of [hgnc](https://registry.identifiers.org/registry/hgnc) as the gene authority is RECOMMENDED.",
+   "properties": {
+      "type": {
+         "type": "string",
+         "const": "Gene",
+         "default": "Gene",
+         "description": "MUST be \"Gene\""
+      },
+      "gene_id": {
+         "$ref": "#/definitions/CURIE",
+         "description": "A CURIE reference to a Gene concept"
+      }
+   },
+   "required": [
+      "gene_id",
+      "type"
+   ],
+   "additionalProperties": false
+}
