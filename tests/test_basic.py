@@ -63,7 +63,7 @@ def test_maturity():
         RC = 3
         Stable = 4
 
-    pr_target = os.getenv('github.base_ref', None)
+    pr_target = os.getenv('TARGET_BRANCH', None)
 
     branch_name = pr_target or Repository('.').head.shorthand
     if re.match('^\d+\.\d+$', branch_name):
