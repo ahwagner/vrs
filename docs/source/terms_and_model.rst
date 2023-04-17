@@ -519,14 +519,10 @@ SO: `Genotype (SO:0001027)
      (e.g. a :ref:`DefiniteRange` or :ref:`IndefiniteRange`).
 
 
-Locations and Intervals
-@@@@@@@@@@@@@@@@@@@@@@@
-
-
 .. _Location:
 
 Location
-########
+@@@@@@@@
 
 As used by biologists, the precision of "location" (or "locus") varies
 widely, ranging from precise start and end numerical coordinates
@@ -556,7 +552,7 @@ Location for Variation.
 .. _ChromosomeLocation:
 
 ChromosomeLocation
-$$$$$$$$$$$$$$$$$$
+##################
 
 Chromosomal locations based on named features, including named landmarks,
 cytobands, and regions observed from chromosomal staining techniques.
@@ -620,7 +616,7 @@ cytobands, and regions observed from chromosomal staining techniques.
 .. _SequenceLocation:
 
 SequenceLocation
-$$$$$$$$$$$$$$$$
+################
 
 A *Sequence Location* is a specified subsequence of a reference :ref:`Sequence`.
 The reference is typically a chromosome, transcript, or protein sequence.
