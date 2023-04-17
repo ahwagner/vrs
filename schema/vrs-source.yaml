@@ -486,8 +486,7 @@ definitions:
         type: string
         const: "Phaseset"
         default: "Phaseset"
-        description: >-
-          MUST be "Phaseset"
+        description: MUST be "Phaseset".
       members:
         type: array
         uniqueItems: true
@@ -498,7 +497,7 @@ definitions:
         description: >-
           Each object in `members` describes a :ref:`MolecularVariation`
           that is known to be in-Trans with the other members.
-      required: [ "members", "type" ]
+    required: [ "members", "type" ]
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Feature
