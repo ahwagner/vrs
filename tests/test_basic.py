@@ -9,6 +9,7 @@ import pytest
 from pygit2 import Repository
 import re
 from enum import Enum
+import os
 
 from config import vrs_json_path, vrs_yaml_path, root_dir
 
@@ -51,7 +52,7 @@ def test_maturity():
                 try:
                     assert getattr(Maturity, cls_level).value >= getattr(Maturity, level).value
                 except AssertionError:
-                    msg = f'Maturity level for {cls} ({cls_level}) inappropriate for branch.'
+                    msg = f'Maturity level for {cls} ({cls_level}) inappropriate for target branch.'
                     print("\n" + msg)
                     assert cls_level == level, msg
 
@@ -62,7 +63,9 @@ def test_maturity():
         RC = 3
         Stable = 4
 
-    branch_name = Repository('.').head.shorthand
+    pr_target = os.getenv('TARGET_BRANCH', None)
+
+    branch_name = pr_target or Repository('.').head.shorthand
     if re.match('^\d+\.\d+$', branch_name):
         assert_all_models_have_maturity_level('Stable')
     elif re.match('^\d+\.\d+-beta$', branch_name):

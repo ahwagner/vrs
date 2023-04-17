@@ -27,3 +27,4 @@ jobs:
           pytest
         env:
           PYTHONPATH: /home/runner/work/vrs/vrs/
+          TARGET_BRANCH: ${{ github.base_ref }}
