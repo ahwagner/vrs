@@ -246,7 +246,7 @@ definitions:
       propertyName: type
 
   ChromosomeLocation:
-    maturity: Stable
+    maturity: Beta
     inherits: Location
     description: >-
       A Location on a chromosome defined by a species and chromosome name.

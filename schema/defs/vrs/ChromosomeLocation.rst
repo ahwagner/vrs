@@ -1,3 +1,5 @@
+.. warning:: ChromosomeLocation is a BETA feature, use at your own risk!
+
 **Computational Definition**
 
 A Location on a chromosome defined by a species and chromosome name.
