@@ -1,3 +1,5 @@
+.. warning:: This is a Release Candidate feature. Use at your own risk!
+
 **Computational Definition**
 
 An expression of a sequence composed from multiple other :ref:`Sequence Expressions<SequenceExpression>` objects. MUST have at least one component that is not a ref:`LiteralSequenceExpression`. CANNOT be composed from nested composed sequence expressions.

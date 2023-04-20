@@ -411,7 +411,7 @@ definitions:
     required: [ "seq_expr", "count" ]
 
   ComposedSequenceExpression:
-    maturity: Stable
+    maturity: RC
     description: >-
       An expression of a sequence composed from multiple other
       :ref:`Sequence Expressions<SequenceExpression>`
