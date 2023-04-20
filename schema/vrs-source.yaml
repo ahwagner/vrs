@@ -475,6 +475,30 @@ definitions:
           A :ref:`MolecularVariation` at a :ref:`Genotype` locus.
     required: [ "type", "count", "variation" ]
 
+
+  Phaseset:
+    maturity: Alpha
+    description: >-
+      A set of trans-phased Variation objects.
+    type: object
+    properties:
+      type:
+        type: string
+        const: "Phaseset"
+        default: "Phaseset"
+        description: MUST be "Phaseset".
+      members:
+        type: array
+        uniqueItems: true
+        minItems: 2
+        ordered: false
+        items:
+          $ref: "#/definitions/MolecularVariation"
+        description: >-
+          Each object in `members` describes a :ref:`MolecularVariation`
+          that is known to be in-Trans with the other members.
+    required: [ "members", "type" ]
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Feature
 

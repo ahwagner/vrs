@@ -417,6 +417,31 @@ definitions:
     - type
     - variation
     additionalProperties: false
+  Phaseset:
+    maturity: Alpha
+    description: A set of trans-phased Variation objects.
+    type: object
+    properties:
+      type:
+        type: string
+        const: Phaseset
+        default: Phaseset
+        description: MUST be "Phaseset".
+      members:
+        type: array
+        uniqueItems: true
+        minItems: 2
+        ordered: false
+        items:
+          oneOf:
+          - $ref: '#/definitions/Allele'
+          - $ref: '#/definitions/Haplotype'
+        description: Each object in `members` describes a MolecularVariation that
+          is known to be in-Trans with the other members.
+    required:
+    - members
+    - type
+    additionalProperties: false
   Feature:
     description: A named entity that can be mapped to a Location. Genes, protein domains,
       exons, and chromosomes are some examples of common biological entities that
