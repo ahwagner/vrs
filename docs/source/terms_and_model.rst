@@ -99,7 +99,7 @@ Variation
 @@@@@@@@@
 
 In the genetics community, variation is often used to mean *sequence*
-variation, describing the differences observed in DNA or AA bases among
+variation, describing the differences observed in DNA or AA residues among
 individuals, and typically with respect to a common reference sequence.
 
 In VRS, the Variation class is the conceptual root of all types of biomolecular
